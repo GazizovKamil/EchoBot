@@ -85,7 +85,7 @@ class Program
         {
             await botClient.SendPhotoAsync(
                 chatId: chatId,
-                photo: message.Photo.Last().FileId,
+                photo: message.Photo[0].FileId,
                 caption: "Вы отправили фотографию!",
                 cancellationToken: cancellationToken);
         }
