@@ -43,7 +43,7 @@ class Program
     {
         var botClient = new TelegramBotClient("ВАШ_ТЕЛЕГРАМ_БОТ_ТОКЕН");
 
-        using var cts = new CancellationTokenSource();
+        var cts = new CancellationTokenSource();
 
         var receiverOptions = new ReceiverOptions
         {
@@ -66,13 +66,14 @@ class Program
     // Обработка входящих сообщений
     static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
-        if (update.Message is not { } message)
+        if (update.Type != UpdateType.Message)
             return;
 
+        var message = update.Message;
         var chatId = message.Chat.Id;
 
         // Обрабатываем текстовые сообщения
-        if (message.Text is not null)
+        if (message.Text != null)
         {
             await botClient.SendTextMessageAsync(
                 chatId: chatId,
@@ -80,7 +81,7 @@ class Program
                 cancellationToken: cancellationToken);
         }
         // Обрабатываем фотографии
-        else if (message.Photo is not null)
+        else if (message.Photo != null)
         {
             await botClient.SendPhotoAsync(
                 chatId: chatId,
@@ -89,7 +90,7 @@ class Program
                 cancellationToken: cancellationToken);
         }
         // Обрабатываем документы
-        else if (message.Document is not null)
+        else if (message.Document != null)
         {
             await botClient.SendDocumentAsync(
                 chatId: chatId,
@@ -98,7 +99,7 @@ class Program
                 cancellationToken: cancellationToken);
         }
         // Обрабатываем видео
-        else if (message.Video is not null)
+        else if (message.Video != null)
         {
             await botClient.SendVideoAsync(
                 chatId: chatId,
@@ -107,7 +108,7 @@ class Program
                 cancellationToken: cancellationToken);
         }
         // Обрабатываем стикеры
-        else if (message.Sticker is not null)
+        else if (message.Sticker != null)
         {
             await botClient.SendStickerAsync(
                 chatId: chatId,
